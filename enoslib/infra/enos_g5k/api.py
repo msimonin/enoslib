@@ -138,6 +138,8 @@ class Resources:
             return [translate(node, vlan_id) for node in nodes]
 
         env_name = self.configuration.get("env_name", ENV_NAME)
+        env_file = self.configuration.get("env_file")
+
         force_deploy = self.configuration.get("force_deploy", False)
 
         machines = self.c_resources["machines"]
@@ -150,8 +152,12 @@ class Resources:
             # flatten
             nodes = sum(nodes, [])
             options = {
-                "env_name": env_name
+                "env_name": env_name,
             }
+            if env_file is not None:
+                options.pop("env_name")
+                options.update({"env_file": env_file})
+
             if not utils.is_prod(primary_network, networks):
                 net = utils.lookup_networks(primary_network, networks)
                 options.update({"vlan": net["_c_network"]["vlan_id"]})
