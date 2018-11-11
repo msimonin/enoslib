@@ -188,9 +188,10 @@ def get_cluster_interfaces(cluster, extra_cond=lambda nic: True):
     # https://intranet.grid5000.fr/bugzilla/show_bug.cgi?id=9272
     # When its fixed we should be able to only use the new predictable name.
     nics = [(nic['device'], nic['name']) for nic in nics
-            if nic['mountable'] and
-            nic['interface'] == 'Ethernet' and
-            not nic['management'] and extra_cond(nic)]
+            if nic['mountable']
+            and nic['interface'] == 'Ethernet'
+            and not nic['management']
+            and extra_cond(nic)]
     nics = sorted(nics)
     return nics
 

@@ -1,5 +1,6 @@
 from enoslib.api import generate_inventory, emulate_network, validate_network
 from enoslib.infra.enos_g5k.provider import G5k
+from enoslib.infra.enos_g5k.configuration import Configuration
 
 import logging
 import os
@@ -9,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 provider_conf = {
     "resources": {
         "machines": [{
-            "role": "control",
+            "roles": ["control"],
             "cluster": "paravance",
             "nodes": 1,
             "primary_network": "n1",
@@ -25,7 +26,7 @@ provider_conf = {
         "networks": [{
             "id": "n1",
             "type": "kavlan",
-            "role": "my_network",
+            "roles": ["my_network"],
             "site": "rennes",
          }]
     }
@@ -35,7 +36,8 @@ provider_conf = {
 inventory = os.path.join(os.getcwd(), "hosts")
 
 # claim the resources
-provider = G5k(provider_conf)
+conf = Configuration.from_dictionnary(provider_conf)
+provider = G5k(conf)
 roles, networks = provider.init()
 
 # generate an inventory compatible with ansible
