@@ -74,7 +74,7 @@ def get_network_info_from_job_id(job_id, site, vlans, subnets):
         "vlan_id": vlan_id} for vlan_id in vlan_ids])
     # NOTE(msimonin): this currently returned only one subnet
     # even if several are reserved
-    # We'll need to patch execo the same way it has been patched for vlans
+    # We'll eed to patch execo the same way it has been patched for vlans
     ipmac, info = ex5.get_oar_job_subnets(job_id, site)
     if not ipmac:
         logger.debug("No subnet information found for this job")
